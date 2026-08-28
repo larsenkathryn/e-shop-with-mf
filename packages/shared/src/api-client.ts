@@ -30,6 +30,18 @@ export const getProduct = async (id: number): Promise<Product> => {
   return await apiClient.get(`products/${id}`).json();
 };
 
+export const getCategories = async (): Promise<string[]> => {
+  return await apiClient.get("products/categories").json();
+};
+
+export const getProductsByCategory = async (
+  category: string
+): Promise<Product[]> => {
+  return await apiClient
+    .get(`products/category/${encodeURIComponent(category)}`)
+    .json();
+};
+
 export type CheckoutContactInfo = {
   email: string;
   card_number: string;

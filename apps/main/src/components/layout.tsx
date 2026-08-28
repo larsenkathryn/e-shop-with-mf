@@ -5,6 +5,7 @@ import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 import { useCart } from "cart/cart-store";
 import dynamic from "next/dynamic";
 import NextProgress from "next-progress";
+import { CategoryMenu } from "./category-menu";
 
 export type LayoutProps = { children: ReactNode };
 
@@ -36,6 +37,10 @@ const LazyHeaderCart = dynamic(() => Promise.resolve(HeaderCart), {
   ssr: false,
 });
 
+const LazyCategoryMenu = dynamic(() => Promise.resolve(CategoryMenu), {
+  ssr: false,
+});
+
 const Header = () => {
   return (
     <header className="p-8">
@@ -43,6 +48,7 @@ const Header = () => {
         <div className="flex items-center gap-4">
           <Link href="/">Home</Link>
           <Link href="/products">Products</Link>
+          <LazyCategoryMenu />
         </div>
         <div>
           <Link href="/cart">

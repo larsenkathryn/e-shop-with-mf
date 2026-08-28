@@ -2,15 +2,21 @@ import { formatPrice, Product } from "shared";
 import Head from "next/head";
 import Link from "next/link";
 
-export const ProductsListingPage = ({ products }: { products: Product[] }) => {
+export const ProductsListingPage = ({
+  products,
+  title = "Products",
+}: {
+  products: Product[];
+  title?: string;
+}) => {
   return (
     <>
       <Head>
-        <title>Products</title>
+        <title>{title}</title>
       </Head>
       <div className="max-w-6xl px-8 py-16 mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-5xl font-bold">Products</h2>
+          <h2 className="text-5xl font-bold">{title}</h2>
         </div>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {products.map((product) => {
