@@ -4,3 +4,10 @@ export const formatPrice = (price: number) => {
     currency: "USD",
   }).format(price);
 };
+
+export const formatCategoryLabel = (category: string) => {
+  return category
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};

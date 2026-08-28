@@ -1,4 +1,9 @@
-import { Product, getProducts } from "shared";
+import {
+  Product,
+  getProducts,
+  getProductsByCategory,
+  formatCategoryLabel,
+} from "shared";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 
@@ -12,16 +17,30 @@ const ProductsListingPage = dynamic(
   }
 );
 
-const ProductsListing = ({ products }: { products: Product[] }) => {
-  return <ProductsListingPage products={products} />;
+const ProductsListing = ({
+  products,
+  title,
+}: {
+  products: Product[];
+  title?: string;
+}) => {
+  return <ProductsListingPage products={products} title={title} />;
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const products = await getProducts();
+  const { category } = ctx.query;
+
+  const products =
+    typeof category === "string"
+      ? await getProductsByCategory(category)
+      : await getProducts();
 
   return {
     props: {
       products,
+      ...(typeof category === "string" && {
+        title: formatCategoryLabel(category),
+      }),
     },
   };
 };
