@@ -10,7 +10,7 @@ This project is a simple e-commerce platform built using the micro frontend arch
 
 The project consists of five different applications, each serving a unique purpose.
 
-It consumes the `https://fakestoreapi.com/` API to get the products.
+It consumes the `https://dummyjson.com/` API to get the products.
 
 The applications are as follows:
 
@@ -27,7 +27,7 @@ The micro frontend architecture used in this project allows for the seamless int
 
 ## Product Categories
 
-The `main` shell's header includes a **Categories** menu, visible on the Home, Products, and Cart pages. It lists every product category returned by `https://fakestoreapi.com/products/categories` and links each one to `/products?category=<category>`. That route filters the product listing to the selected category and updates the page heading to match (e.g. selecting "Men's Clothing" shows the heading "Men's Clothing" instead of "Products").
+The `main` shell's header includes a **Categories** menu, visible on the Home, Products, and Cart pages. It lists every product category returned by `https://dummyjson.com/products/categories` and links each one to `/products?category=<category-slug>`. That route filters the product listing to the selected category and updates the page heading to match (e.g. selecting "Mobile Accessories" shows the heading "Mobile Accessories" instead of "Products").
 
 ## Getting Started
 

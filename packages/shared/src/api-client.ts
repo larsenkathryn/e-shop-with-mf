@@ -1,7 +1,7 @@
 import ky from "ky";
 
 export const apiClient = ky.create({
-  prefixUrl: "https://fakestoreapi.com",
+  prefixUrl: "https://dummyjson.com",
   headers: {
     "content-type": "application/json",
   },
@@ -22,24 +22,64 @@ export type ProductRating = {
   count: number;
 };
 
+export type Category = {
+  slug: string;
+  name: string;
+};
+
+// Raw shape returned by dummyjson.com/products* endpoints (trimmed to the
+// fields we actually use — the API returns a lot more per product).
+type DummyProduct = {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  rating: number;
+  reviews?: unknown[];
+  images?: string[];
+  thumbnail?: string;
+};
+
+const toProduct = (product: DummyProduct): Product => ({
+  id: product.id,
+  title: product.title,
+  price: product.price,
+  description: product.description,
+  category: product.category,
+  image: product.thumbnail ?? product.images?.[0] ?? "",
+  rating: {
+    rate: product.rating,
+    count: product.reviews?.length ?? 0,
+  },
+});
+
 export const getProducts = async (): Promise<Product[]> => {
-  return await apiClient.get("products").json();
+  const { products } = await apiClient
+    .get("products", { searchParams: { limit: 0 } })
+    .json<{ products: DummyProduct[] }>();
+
+  return products.map(toProduct);
 };
 
 export const getProduct = async (id: number): Promise<Product> => {
-  return await apiClient.get(`products/${id}`).json();
+  const product = await apiClient.get(`products/${id}`).json<DummyProduct>();
+
+  return toProduct(product);
 };
 
-export const getCategories = async (): Promise<string[]> => {
-  return await apiClient.get("products/categories").json();
+export const getCategories = async (): Promise<Category[]> => {
+  return await apiClient.get("products/categories").json<Category[]>();
 };
 
 export const getProductsByCategory = async (
   category: string
 ): Promise<Product[]> => {
-  return await apiClient
+  const { products } = await apiClient
     .get(`products/category/${encodeURIComponent(category)}`)
-    .json();
+    .json<{ products: DummyProduct[] }>();
+
+  return products.map(toProduct);
 };
 
 export type CheckoutContactInfo = {
