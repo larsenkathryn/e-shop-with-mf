@@ -82,6 +82,14 @@ export const getProductsByCategory = async (
   return products.map(toProduct);
 };
 
+export const searchProducts = async (query: string): Promise<Product[]> => {
+  const { products } = await apiClient
+    .get("products/search", { searchParams: { q: query } })
+    .json<{ products: DummyProduct[] }>();
+
+  return products.map(toProduct);
+};
+
 export type CheckoutContactInfo = {
   email: string;
   card_number: string;

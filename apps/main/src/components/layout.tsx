@@ -41,16 +41,22 @@ const LazyCategoryMenu = dynamic(() => Promise.resolve(CategoryMenu), {
   ssr: false,
 });
 
+const LazySearchBar = dynamic(
+  () => import("products/search-bar").then((mod) => mod.SearchBar),
+  { ssr: false }
+);
+
 const Header = () => {
   return (
     <header className="p-8">
-      <div className="container flex justify-between mx-auto">
+      <div className="container flex items-center justify-between mx-auto">
         <div className="flex items-center gap-4">
           <Link href="/">Home</Link>
           <Link href="/products">Products</Link>
           <LazyCategoryMenu />
         </div>
-        <div>
+        <div className="flex items-center gap-4">
+          <LazySearchBar />
           <Link href="/cart">
             <LazyHeaderCart />
           </Link>
