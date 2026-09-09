@@ -13,6 +13,7 @@ const getFederationConfig = (isServer) => ({
   exposes: {
     "./product-details-page": "./src/components/product-details-page.tsx",
     "./products-listing-page": "./src/components/products-listing-page.tsx",
+    "./search-bar": "./src/components/search-bar.tsx",
   },
   shared: {},
 });

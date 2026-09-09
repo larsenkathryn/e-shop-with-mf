@@ -7,7 +7,7 @@ export const formatPrice = (price: number) => {
 
 export const formatCategoryLabel = (category: string) => {
   return category
-    .split(" ")
+    .split(/[\s-]+/)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 };

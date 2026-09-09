@@ -10,12 +10,12 @@ This project is a simple e-commerce platform built using the micro frontend arch
 
 The project consists of five different applications, each serving a unique purpose.
 
-It consumes the `https://fakestoreapi.com/` API to get the products.
+It consumes the `https://dummyjson.com/` API to get the products.
 
 The applications are as follows:
 
 - **Main**: This is the application shell that connects all the other apps together. Built with Next.js, runs by default at `http://localhost:3000` and at `http://localhost:4000` when in production mode.
-- **Products**: This application is responsible for displaying the list of products available for sale on the platform and the product details page with ability to add the product to the cart. The listing can also be filtered by category. Built with Next.js, runs by default at `http://localhost:3001` and at `http://localhost:4001` when in production mode.
+- **Products**: This application is responsible for displaying the list of products available for sale on the platform and the product details page with ability to add the product to the cart. The listing can also be filtered by category or searched by keyword. Built with Next.js, runs by default at `http://localhost:3001` and at `http://localhost:4001` when in production mode.
 - **Cart**: This application is responsible for managing the items in the user's shopping cart. Built with Next.js, runs by default at `http://localhost:3002` and at `http://localhost:4002` when in production mode.
 - **Checkout**: This application is responsible for handling the checkout process. Built with Next.js, runs by default at `http://localhost:3003` and at `http://localhost:4003` when in production mode.
 - **Home**: This is the application responsible for displaying the home page of the e-commerce platform. Built with Vue.js, runs by default at `http://localhost:3004` and at `http://localhost:4004` when in production mode.
@@ -27,7 +27,11 @@ The micro frontend architecture used in this project allows for the seamless int
 
 ## Product Categories
 
-The `main` shell's header includes a **Categories** menu, visible on the Home, Products, and Cart pages. It lists every product category returned by `https://fakestoreapi.com/products/categories` and links each one to `/products?category=<category>`. That route filters the product listing to the selected category and updates the page heading to match (e.g. selecting "Men's Clothing" shows the heading "Men's Clothing" instead of "Products").
+The `main` shell's header includes a **Categories** menu, visible on the Home, Products, and Cart pages. It lists every product category returned by `https://dummyjson.com/products/categories` and links each one to `/products?category=<category-slug>`. That route filters the product listing to the selected category and updates the page heading to match (e.g. selecting "Mobile Accessories" shows the heading "Mobile Accessories" instead of "Products").
+
+## Search
+
+The header also includes a search bar, exposed as a federated module from the `products` app (`products/search-bar`) and consumed by `main`. Typing does not navigate anywhere by itself — pressing Enter or clicking the search icon submits the query to `/products/search?q=<term>`, a `main`-owned route (mirroring the shape of the underlying `https://dummyjson.com/products/search?q=` endpoint) that fetches matching products and renders them with the same listing component used by the category and "all products" pages. Selecting an individual result from there goes to the standard `/products/<id>` detail page.
 
 ## Getting Started
 
